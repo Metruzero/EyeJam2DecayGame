@@ -14,17 +14,22 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    public List<ItemType> items = new List<ItemType>();
+    public List<Item> items = new List<Item>();
 
     public static event Action OnInventoryChanged;
 
-    public void AddItem(ItemType item)
+    public Item heldItem = null;
+
+    private void Awake() => Instance = this;
+
+    public void AddItem(Item item)
     {
+        Debug.Log("Hit");
         items.Add(item);
         OnInventoryChanged?.Invoke();
     }
 
-    public void RemoveItem(ItemType item)
+    public void RemoveItem(Item item)
     {
         if (items.Contains(item))
         {
@@ -33,11 +38,21 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public bool HasItem(ItemType item) => items.Contains(item);
+    public bool HasItem(Item item) => items.Contains(item);
 
     public void ResetInventory()
     {
         items.Clear();
         OnInventoryChanged?.Invoke();
+    }
+
+    public void HoldItem(Item item)
+    {
+        heldItem = item;
+    }
+
+    public void ReleaseItem()
+    {
+        heldItem = null;
     }
 }

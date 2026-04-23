@@ -22,7 +22,6 @@ public class InteractionController : MonoBehaviour
             Interactable interactable = GetInteractable();
             if (interactable != null)
             {
-                Debug.Log("We hit!");
                 InteractionContext context = CreateContext(interactable.gameObject);
 
                 if (interactable.CanInteract(context))
@@ -36,8 +35,6 @@ public class InteractionController : MonoBehaviour
     private Interactable GetInteractable()
     {
         Vector2 rawMousePos = Mouse.current.position.ReadValue();
-        
-        Debug.Log("MousePos: " + rawMousePos);
 
         Vector3 worldPos = sceneCamera.ScreenToWorldPoint(rawMousePos);
 
@@ -46,7 +43,6 @@ public class InteractionController : MonoBehaviour
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, 100f, filteredLayer);
         if (hit.collider != null)
         {
-            Debug.Log("Real hit?");
             Interactable interactable = hit.collider.gameObject.GetComponent<Interactable>();
             return interactable;
         }

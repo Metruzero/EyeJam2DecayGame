@@ -1,16 +1,54 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
-    [Header("UI Settings")]
-    public string interactionPrompt = "Examine";
+    private bool _initialActiveState;
+    private Vector3 _initialPosition;
+    private Quaternion _initialRotation;
+    private Sprite _initialSprite;
+
+    public string id = "";
+
+    public static List<Interactable> AllInteractables = new List<Interactable>();
 
     [Header("Behavior Logic")]
-    [Tooltip("The system will execute the first group whose conditions are met.")]
     public List<ConditionActionGroup> interactionGroups;
 
-    public string GetInteractionPrompt() => interactionPrompt;
+    private void Awake()
+    {
+        _initialActiveState = gameObject.activeSelf;
+        _initialPosition = transform.position;
+        _initialRotation = transform.rotation;
+        SpriteRenderer spriteRender = gameObject.GetComponent<SpriteRenderer>();
+        if (spriteRender != null )
+        {
+            _initialSprite = spriteRender.sprite;
+        }
+        AllInteractables.Add( this );
+        if (id != "")
+        {
+            ObjectRegistry.Instance.Register(id, this.gameObject);
+        }
+        
+    }
+
+    public void ResetToStartingState()
+    {
+        gameObject.SetActive(_initialActiveState);
+        transform.position = _initialPosition;
+        transform.rotation = _initialRotation;
+        if (_initialSprite != null)
+        {
+            SpriteRenderer spriteRender = gameObject.GetComponent<SpriteRenderer>();
+            if (spriteRender != null)
+            {
+                spriteRender.sprite = _initialSprite;
+            }
+
+        }
+    }
 
     public bool CanInteract(InteractionContext context)
     {
@@ -28,7 +66,7 @@ public class Interactable : MonoBehaviour, IInteractable
             if (group.AllConditionsMet(context))
             {
                 group.ExecuteActions(context);
-                return; // Stop after the first valid group is found
+                return;
             }
         }
         Debug.Log($"{name}: No valid interaction for current state.");
