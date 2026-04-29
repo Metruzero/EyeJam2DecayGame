@@ -10,7 +10,6 @@ public class KeypadGameAction : GameAction
 
     public override void Execute(InteractionContext context)
     {
-        // Find Keypad
         KeypadController keypad = context.Target.GetComponentInParent<KeypadController>(); ;
 
         if (isSubmit)

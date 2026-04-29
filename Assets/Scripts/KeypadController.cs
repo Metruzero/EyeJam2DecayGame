@@ -1,55 +1,68 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class KeypadController : MonoBehaviour
 {
-    [Header("RegistryID")]
     public string id;
 
-    [Header("Settings")]
-    public string correctCode = "1234";
+    public string correctCode = "9461";
     public TextMeshPro displayMesh;
+    public float timeBeforeClear;
 
-    [Header("Success/Fail Actions")]
     public List<GameAction> onSuccessActions;
     public List<GameAction> onFailActions;
 
-    private string _currentInput = "";
+    private int codeLength;
+
+    private string currentInput = "";
 
     private void Awake()
     {
-        
+        codeLength = correctCode.Length;
     }
 
     public void AddNumber(string number)
     {
         Debug.Log(number);
-        if (_currentInput.Length < 4)
+        if (currentInput.Length < codeLength)
         {
-            _currentInput += number;
+            currentInput += number;
             UpdateDisplay();
+        }
+        if (currentInput.Length == codeLength)
+        {
+            Submit();
         }
     }
 
     public void Clear()
     {
-        _currentInput = "";
+        currentInput = "";
         UpdateDisplay();
+    }
+
+    private IEnumerator WaitBeforeClear()
+    {
+        displayMesh.color = Color.red;
+        yield return new WaitForSeconds(timeBeforeClear);
+        Clear();
+        displayMesh.color = Color.red;
     }
 
     public void Submit()
     {
-        if (_currentInput == correctCode)
+        if (currentInput == correctCode)
         {
-            Debug.Log("Access Granted");
             ExecuteActions(onSuccessActions);
+            Clear();
         }
         else
         {
-            Debug.Log("Access Denied");
             ExecuteActions(onFailActions);
-            Clear();
+            StartCoroutine(WaitBeforeClear());
+            
         }
     }
 
@@ -63,5 +76,5 @@ public class KeypadController : MonoBehaviour
         foreach (var action in actions) action.Execute(context);
     }
 
-    private void UpdateDisplay() => displayMesh.text = _currentInput;
+    private void UpdateDisplay() => displayMesh.text = currentInput;
 }

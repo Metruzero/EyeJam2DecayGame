@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CheckBoolGameCondition", menuName = "GameConditions/CheckBoolGameCondition")]
 public class CheckBoolGameCondition : GameCondition
 {
-    BoolVariable boolSO;
+    public BoolVariable boolSO;
     public bool requiredState = true;
 
     public override bool Check(InteractionContext context)

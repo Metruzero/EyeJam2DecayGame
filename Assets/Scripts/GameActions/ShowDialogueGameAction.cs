@@ -6,6 +6,7 @@ public class ShowDialogueGameAction : GameAction
 
     public override void Execute(InteractionContext context)
     {
+        Debug.Log("ShowDialogue");
         DialogueManager.Instance.ShowDialogue(DisplayText);
     }
 }

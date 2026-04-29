@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da8cd08beb58bd468bc2d70c2fb5142, type: 3}
+  m_Name: SeveredHand
+  m_EditorClassIdentifier: 
+  itemName: 
+  description: I'm sorry
+  icon: {fileID: 140433255743585067, guid: e09602bf824a06d498f0a07465680274, type: 3}
+  cursorSprite: {fileID: 140433255743585067, guid: e09602bf824a06d498f0a07465680274, type: 3}
+  itemID: 4
+  isConsumable: 0

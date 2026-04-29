@@ -8,7 +8,6 @@ public class ChangeGameView : GameAction
     public override void Execute(InteractionContext context)
     {
         RoomManager roomManager = RoomManager.Instance;
-        Debug.Log(roomManager);
 
         roomManager.SetView(viewID);
     }
